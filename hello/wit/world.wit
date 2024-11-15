@@ -1,0 +1,7 @@
+package wasmcloud:local;
+
+world hello {
+  include wasmcloud:component-go/imports@0.1.0;
+
+  include local:wit-grpc-test/exports@0.1.0;
+}
