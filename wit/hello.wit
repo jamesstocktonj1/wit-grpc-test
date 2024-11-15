@@ -1,0 +1,18 @@
+// Converted proto/hello.proto to wit
+// 
+// service HelloService
+interface hello-service {
+
+    // message HelloRequest
+    record hello-request {
+        message: string
+    }
+
+    // message HelloResponse
+    record hello-response {
+        message: string
+    }
+
+    // rpc Hello(HelloRequest) returns (HelloResponse) {};
+    hello: func(req: hello-request) -> hello-response;
+}

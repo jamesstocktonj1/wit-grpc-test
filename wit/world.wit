@@ -1,0 +1,9 @@
+package jamesstocktonj1:wit-grpc-test;
+
+world imports {
+    import hello-service;
+}
+
+world exports {
+    export hello-service;
+}
