@@ -1,0 +1,27 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: wit-grpc-test
+  annotations:
+    version: v0.0.1
+spec:
+  components:
+    - name: hello
+      type: component
+      properties:
+        image: file://./hello/build/http_hello_world_s.wasm
+      traits:
+        - type: spreadscaler
+          properties:
+            instances: 1
+        - type: link
+          properties:
+            target: bridge
+            namespace: local
+            package: wit-grpc-test
+            interfaces: [hello]
+
+    - name: bridge
+      type: capability
+      properties:
+        image: file://./bridge/build/custom-template.par.gz
