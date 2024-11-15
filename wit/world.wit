@@ -1,4 +1,4 @@
-package jamesstocktonj1:wit-grpc-test;
+package local:wit-grpc-test@0.1.0;
 
 world imports {
     import hello-service;
