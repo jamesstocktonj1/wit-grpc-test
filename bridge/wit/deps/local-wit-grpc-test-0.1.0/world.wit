@@ -1,0 +1,9 @@
+package local:wit-grpc-test@0.1.0;
+
+world imports {
+    import hello-service;
+}
+
+world exports {
+    export hello-service;
+}

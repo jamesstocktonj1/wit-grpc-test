@@ -1,0 +1,6 @@
+package wasmcloud:bridge;
+
+// The `world` defines all of the imports and exports our provider can use / must implement.
+world provider {
+    include local:wit-grpc-test/imports@0.1.0;
+}
