@@ -35,11 +35,23 @@ func (b *Bridge) Serve() error {
 
 func (b *Bridge) Hello(ctx context.Context, req *proto.HelloRequest) (*proto.HelloResponse, error) {
 	b.provider.Logger.Info("incoming message", "request", req)
-	resp, err := helloservice.Hello(ctx, b.provider.OutgoingRpcClient("wit_grpc_test-hello"), &helloservice.HelloRequest{
-		Message: req.GetMessage(),
-	})
+	resp, err := helloservice.Hello(
+		ctx,
+		b.provider.OutgoingRpcClient("wit_grpc_test-hello"),
+		mapRequest(req),
+	)
 	b.provider.Logger.Info("outgoing message", "response", resp)
+	return mapResponse(resp), err
+}
+
+func mapRequest(req *proto.HelloRequest) *helloservice.HelloRequest {
+	return &helloservice.HelloRequest{
+		Message: req.GetMessage(),
+	}
+}
+
+func mapResponse(resp *helloservice.HelloResponse) *proto.HelloResponse {
 	return &proto.HelloResponse{
 		Message: resp.Message,
-	}, err
+	}
 }
