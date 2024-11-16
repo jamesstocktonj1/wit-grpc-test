@@ -1,0 +1,40 @@
+name: Component Build
+
+on:
+  push:
+    paths:
+      - hello/**
+    branches:
+      - main
+    tags:
+      - v*
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-component:
+    name: build-component
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Setup wash-cli
+        uses: wasmCloud/common-actions/install-wash@main
+      - name: Setup TinyGo
+        uses: acifani/setup-tinygo@v2
+        with:
+          tinygo-version: '0.34.0'
+      - name: Setup wasm-tools
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: wasm-tools
+      - name: Build Component
+        run: |
+          wash build -p hello
+      - name: Publish Component
+        env:
+          WASH_REG_USER: ${{ github.actor }}
+          WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: wash push ghcr.io/${{ github.repository }}/component-hello:${{ steps.meta.outputs.tags || 'main' }} hello/build/hello_s.wasm
