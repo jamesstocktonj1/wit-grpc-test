@@ -46,7 +46,8 @@ func (b *Bridge) Hello(_ctx context.Context, req *proto.HelloRequest) (*proto.He
 		b.provider.OutgoingRpcClient("wit_grpc_test-hello"),
 		mapRequest(req),
 	)
-	b.provider.Logger.Info("outgoing message", "response", resp)
+
+	b.provider.Logger.Info("outgoing message", "response", *resp)
 	return mapResponse(resp), err
 }
 
