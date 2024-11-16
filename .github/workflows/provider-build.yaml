@@ -20,15 +20,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
-      - name: Setup Rust Toolchain
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-      - name: Install wit-bindgen-wrpc
-        run: cargo install wrpc
       - name: Setup wash-cli
         uses: wasmCloud/common-actions/install-wash@main
+      - name: Install wit-bindgen-wrpc
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: wrpc
       - name: Setup wasm-tools
         uses: taiki-e/cache-cargo-install-action@v2
         with:

@@ -9,7 +9,8 @@ spec:
     - name: hello
       type: component
       properties:
-        image: file://./hello/build/hello_s.wasm
+        # image: file://./hello/build/hello_s.wasm
+        image: ghcr.io/jamesstocktonj1/wit-grpc-test/component-hello:main
       traits:
         - type: spreadscaler
           properties:
@@ -24,4 +25,5 @@ spec:
     - name: bridge
       type: capability
       properties:
-        image: file://./bridge/build/bridge.par.gz
+        # image: file://./bridge/build/bridge.par.gz
+        image: ghcr.io/jamesstocktonj1/wit-grpc-test/provider-bridge:main
