@@ -8,8 +8,11 @@ import (
 	"os/signal"
 	"syscall"
 
+	"go.opentelemetry.io/otel"
 	"go.wasmcloud.dev/provider"
 )
+
+var tracer = otel.Tracer("wit-grpc-bridge")
 
 func main() {
 	if err := run(); err != nil {
