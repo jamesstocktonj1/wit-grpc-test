@@ -21,17 +21,20 @@ func main() {
 }
 
 func run() error {
+	b := Bridge{}
 
 	// Init wasmcloud Provider
-	p, err := provider.New()
+	p, err := provider.New(
+		provider.HealthCheck(b.healthcheck),
+		provider.TargetLinkPut(b.createLink),
+		provider.TargetLinkDel(b.deleteLink),
+	)
 	if err != nil {
 		return err
 	}
 
 	// Init gRPC Server
-	b := Bridge{
-		provider: p,
-	}
+	b.provider = p
 	err = b.Init()
 	if err != nil {
 		return err
@@ -58,11 +61,11 @@ func run() error {
 	// Run provider until either a shutdown is requested or a SIGINT is received
 	select {
 	case err = <-providerCh:
-		// stopFunc()
+		b.Stop()
 		return err
 	case <-signalCh:
+		b.Stop()
 		p.Shutdown()
-		// stopFunc()
 	}
 
 	return nil

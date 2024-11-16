@@ -3,14 +3,14 @@ kind: Application
 metadata:
   name: wit-grpc-test
   annotations:
-    version: v0.0.2
+    version: v0.0.1
 spec:
   components:
     - name: hello
       type: component
       properties:
-        # image: file://./hello/build/hello_s.wasm
-        image: ghcr.io/jamesstocktonj1/wit-grpc-test/component-hello:main
+        image: file://./hello/build/hello_s.wasm
+        # image: ghcr.io/jamesstocktonj1/wit-grpc-test/component-hello:main
       traits:
         - type: spreadscaler
           properties:
@@ -25,5 +25,9 @@ spec:
     - name: bridge
       type: capability
       properties:
-        # image: file://./bridge/build/bridge.par.gz
-        image: ghcr.io/jamesstocktonj1/wit-grpc-test/provider-bridge:main
+        image: file://./bridge/build/bridge.par.gz
+        # image: ghcr.io/jamesstocktonj1/wit-grpc-test/provider-bridge:main
+        config:
+          - name: bridge-config
+            properties:
+              address: 0.0.0.0:8080
