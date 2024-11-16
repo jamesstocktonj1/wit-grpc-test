@@ -19,6 +19,10 @@ var (
 	errComponentNotLinked     = errors.New("error: component not linked")
 )
 
+const (
+	defaultAddr = ":8000"
+)
+
 type Bridge struct {
 	proto.UnimplementedHelloServiceServer
 	provider        *provider.WasmcloudProvider
@@ -28,7 +32,12 @@ type Bridge struct {
 }
 
 func (b *Bridge) Init() (err error) {
-	b.listen, err = net.Listen("tcp", ":8080")
+	addr, ok := b.provider.HostData().Config["address"]
+	if !ok {
+		addr = defaultAddr
+	}
+
+	b.listen, err = net.Listen("tcp", addr)
 	if err != nil {
 		return err
 	}
@@ -93,7 +102,9 @@ func (b *Bridge) Hello(_ctx context.Context, req *proto.HelloRequest) (*proto.He
 		b.provider.OutgoingRpcClient(b.linkedComponent),
 		mapRequest(req),
 	)
-
+	if err != nil {
+		span.RecordError(err)
+	}
 	b.provider.Logger.Info("outgoing message", "response", *resp)
 	return mapResponse(resp), err
 }
