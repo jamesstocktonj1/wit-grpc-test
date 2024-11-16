@@ -6,4 +6,4 @@ version = "0.1.0"
 
 [provider]
 vendor = "wasmCloud"
-bin_name = "custom-template"
+bin_name = "bridge"

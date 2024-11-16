@@ -1,0 +1,36 @@
+name: Provider Build
+
+on:
+  push:
+    paths:
+      - bridge/**
+    branches:
+      - main
+    tags:
+      - v*
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-provider:
+    name: build-provider
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - name: Setup wash-cli
+        uses: wasmCloud/common-actions/install-wash@main
+      - name: Setup wasm-tools
+        uses: taiki-e/cache-cargo-install-action@v2
+        with:
+          tool: wasm-tools
+      - name: Build Provider
+        run: |
+          wash build -p bridge
+      - name: Publish Provider
+        env:
+          WASH_REG_USER: ${{ github.actor }}
+          WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: wash push ghcr.io/${{ github.repository }}/provider-bridge:${{ steps.meta.outputs.tags || 'main' }} bridge/build/bridge.par.gz
