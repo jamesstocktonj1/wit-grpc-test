@@ -19,7 +19,7 @@ jobs:
     name: build-provider
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf333
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
       - name: Setup Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
