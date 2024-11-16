@@ -19,7 +19,14 @@ jobs:
     name: build-provider
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf333
+      - name: Setup Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - name: Install wit-bindgen-wrpc
+        run: cargo install wit-bindgen-wrpc-cli
       - name: Setup wash-cli
         uses: wasmCloud/common-actions/install-wash@main
       - name: Setup wasm-tools
