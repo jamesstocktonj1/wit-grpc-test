@@ -12,29 +12,19 @@ import (
 var _ propagation.TextMapCarrier = &wrpcProp{}
 
 type wrpcProp struct {
-	h nats.Header
-}
-
-func (p *wrpcProp) Get(key string) string {
-	return p.h.Get(key)
-}
-
-func (p *wrpcProp) Set(key string, value string) {
-	p.h.Set(key, value)
+	nats.Header
 }
 
 func (p *wrpcProp) Keys() []string {
 	keys := []string{}
-	for k := range p.h {
+	for k := range p.Header {
 		keys = append(keys, k)
 	}
 	return keys
 }
 
 func injectTraceHeader(_ctx context.Context) context.Context {
-	carrier := &wrpcProp{
-		h: nats.Header{},
-	}
+	carrier := &wrpcProp{nats.Header{}}
 	otel.GetTextMapPropagator().Inject(_ctx, carrier)
-	return wrpcnats.ContextWithHeader(_ctx, carrier.h)
+	return wrpcnats.ContextWithHeader(_ctx, carrier.Header)
 }
