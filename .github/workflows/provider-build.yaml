@@ -26,7 +26,7 @@ jobs:
           toolchain: stable
           override: true
       - name: Install wit-bindgen-wrpc
-        run: cargo install wit-bindgen-wrpc-cli
+        run: cargo install wrpc
       - name: Setup wash-cli
         uses: wasmCloud/common-actions/install-wash@main
       - name: Setup wasm-tools
