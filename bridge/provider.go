@@ -50,15 +50,3 @@ func (b *Bridge) Hello(_ctx context.Context, req *proto.HelloRequest) (*proto.He
 	b.provider.Logger.Info("outgoing message", "response", *resp)
 	return mapResponse(resp), err
 }
-
-func mapRequest(req *proto.HelloRequest) *helloservice.HelloRequest {
-	return &helloservice.HelloRequest{
-		Message: req.GetMessage(),
-	}
-}
-
-func mapResponse(resp *helloservice.HelloResponse) *proto.HelloResponse {
-	return &proto.HelloResponse{
-		Message: resp.Message,
-	}
-}
